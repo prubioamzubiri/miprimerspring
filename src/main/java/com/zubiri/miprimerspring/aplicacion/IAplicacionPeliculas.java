@@ -10,6 +10,6 @@ public interface IAplicacionPeliculas {
 
     public abstract List<Pelicula> getPeliculas();
 
-    public abstract void insertPelicula(Pelicula pelicula);
+    public abstract String insertPelicula(Pelicula pelicula);
     
 }

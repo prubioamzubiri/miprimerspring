@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 public class AplicacionPeliculas implements IAplicacionPeliculas{
 
     private List<Pelicula> peliculas;
+    private String nombre;
 
 
     @Override
@@ -26,6 +27,7 @@ public class AplicacionPeliculas implements IAplicacionPeliculas{
                 to_return = peliculas.get(index);
                 encontrado = true;                
             }
+            index++;
         }
 
         return to_return;
@@ -38,8 +40,11 @@ public class AplicacionPeliculas implements IAplicacionPeliculas{
     }
 
     @Override
-    public void insertPelicula(Pelicula pelicula) {
+    public String insertPelicula(Pelicula pelicula) {
         this.peliculas.add(pelicula);
+        return nombre;
     }
+
+    
     
 }
