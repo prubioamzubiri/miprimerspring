@@ -1,25 +1,20 @@
 package com.zubiri.miprimerspring.aplicacion;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.zubiri.miprimerspring.dominio.Pelicula;
+import com.zubiri.miprimerspring.persistencia.IPersistenciaPelicula;
 
 @Configuration
 public class ConfiguracionAplicacion {
 
     @Bean
-    public IAplicacionPeliculas getAplicacionPeliculas()
+    public IAplicacionPeliculas getAplicacionPeliculas(IPersistenciaPelicula persistenciaPelicula)
     {
-
-        List<Pelicula> peliculas = new ArrayList<Pelicula>();
-        String nombre = getProperty("nombre", "Jesus");
-        IAplicacionPeliculas to_return = new AplicacionPeliculas(peliculas, nombre);
-        return to_return;
+        return new AplicacionPeliculas2(persistenciaPelicula);
     }
+
 
     public String getProperty(String propertyName, String defaultValue)
     {
