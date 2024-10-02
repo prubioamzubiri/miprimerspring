@@ -4,15 +4,15 @@ package com.zubiri.miprimerspring.aplicacion;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.zubiri.miprimerspring.persistencia.IPersistenciaPelicula;
+import com.zubiri.miprimerspring.persistencia.RepositorioPelicula;
 
 @Configuration
 public class ConfiguracionAplicacion {
 
     @Bean
-    public IAplicacionPeliculas getAplicacionPeliculas(IPersistenciaPelicula persistenciaPelicula)
+    public IAplicacionPeliculas getAplicacionPeliculas(RepositorioPelicula persistenciaPelicula)
     {
-        return new AplicacionPeliculas2(persistenciaPelicula);
+        return new AplicationPeliculas4(persistenciaPelicula);
     }
 
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface IPersistenciaPelicula {
 
-    public Pelicula getPelicula(String id);
+    public Pelicula getPelicula(int id);
 
     public boolean addPelicula(Pelicula pelicula);
 

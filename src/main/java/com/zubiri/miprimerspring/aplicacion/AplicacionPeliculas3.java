@@ -3,30 +3,29 @@ package com.zubiri.miprimerspring.aplicacion;
 import java.util.List;
 
 import com.zubiri.miprimerspring.dominio.Pelicula;
-import com.zubiri.miprimerspring.persistencia.IPersistenciaPelicula;
-
+import com.zubiri.miprimerspring.persistencia.IPersistencia;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class AplicacionPeliculas2 implements IAplicacionPeliculas{
+public class AplicacionPeliculas3 implements IAplicacionPeliculas{
 
-    IPersistenciaPelicula persistenciaPelicula;
+    IPersistencia<Pelicula> persistenciaPelicula;
 
     @Override
     public Pelicula getPelicula(int id) {
-        return persistenciaPelicula.getPelicula(id);
+        return persistenciaPelicula.obtener(id);
     }
 
     @Override
     public List<Pelicula> getPeliculas() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPeliculas'");
+        
+        return persistenciaPelicula.obtenerTodos();
     }
 
     @Override
     public String insertPelicula(Pelicula pelicula) {
         
-        if(persistenciaPelicula.addPelicula(pelicula)){
+        if(persistenciaPelicula.guardar(pelicula)){
             return "Pelicula insertada";
         }
         return "Error al insertar pelicula";
@@ -34,7 +33,7 @@ public class AplicacionPeliculas2 implements IAplicacionPeliculas{
 
     @Override
     public List<Pelicula> getPeliculasPorAno(int ano) {
-        return persistenciaPelicula.getPeliculasPorAno(ano);
+        return persistenciaPelicula.query("anyo", String.valueOf(ano));
     }
 
 

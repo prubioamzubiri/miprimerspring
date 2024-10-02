@@ -6,10 +6,12 @@ import com.zubiri.miprimerspring.dominio.Pelicula;
 
 public interface IAplicacionPeliculas {
 
-    public abstract Pelicula getPelicula(String id);
+    public abstract Pelicula getPelicula(int id);
 
     public abstract List<Pelicula> getPeliculas();
 
     public abstract String insertPelicula(Pelicula pelicula);
+
+    public List<Pelicula> getPeliculasPorAno(int ano);
     
 }

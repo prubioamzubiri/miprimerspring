@@ -14,7 +14,7 @@ public class AplicacionPeliculas implements IAplicacionPeliculas{
 
 
     @Override
-    public Pelicula getPelicula(String id) {
+    public Pelicula getPelicula(int id) {
         
         boolean encontrado = false;
         Pelicula to_return = null;
@@ -23,7 +23,7 @@ public class AplicacionPeliculas implements IAplicacionPeliculas{
 
         while((!encontrado)&&(index < length))
         {
-            if(peliculas.get(index).getId().compareTo(id)==0){
+            if(peliculas.get(index).getId()==id){
                 to_return = peliculas.get(index);
                 encontrado = true;                
             }
@@ -43,6 +43,12 @@ public class AplicacionPeliculas implements IAplicacionPeliculas{
     public String insertPelicula(Pelicula pelicula) {
         this.peliculas.add(pelicula);
         return nombre;
+    }
+
+    @Override
+    public List<Pelicula> getPeliculasPorAno(int ano) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPeliculasPorAno'");
     }
 
     
