@@ -61,13 +61,4 @@ public class Pelicula{
         this.actores = actores;
         this.premios = new ArrayList<PremioPelicula>();
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj instanceof Pelicula){
-            Pelicula pelicula = (Pelicula) obj;
-            return this.name == pelicula.name;
-        }
-        return false;
-    }
 }

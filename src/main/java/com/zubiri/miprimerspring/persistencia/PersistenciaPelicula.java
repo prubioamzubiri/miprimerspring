@@ -4,9 +4,8 @@ import org.hibernate.Session;
 
 import com.zubiri.miprimerspring.dominio.Actor;
 import com.zubiri.miprimerspring.dominio.Director;
-import com.zubiri.miprimerspring.dominio.Evento;
 import com.zubiri.miprimerspring.dominio.Pelicula;
-import com.zubiri.miprimerspring.dominio.Premio;
+
 
 import lombok.AllArgsConstructor;
 
