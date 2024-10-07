@@ -31,6 +31,7 @@ import jakarta.persistence.EntityManagerFactory;
 @org.springframework.context.annotation.Configuration
 public class SpringPersistenciaConf {
 
+    //JPA Configuration
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -59,11 +60,16 @@ public class SpringPersistenciaConf {
         return transactionManager;
     }
 
-
+    //Interfaces Bean
     @Bean
     public IPersistencia<Pelicula> getPersistenciaPelicula(){
         
         return new Persistencia<Pelicula>(getSession(), Pelicula.class); 
+    }
+
+    @Bean
+    public IPersistencia<Actor> getPersistenciaActor(){           
+            return new Persistencia<Actor>(getSession(), Actor.class); 
     }
 
     @Bean
@@ -78,6 +84,7 @@ public class SpringPersistenciaConf {
         return new PersistenciaPelicula(getSession());
     }
 
+    //Hibernate Session
     public Session getSession()
     {
         /* StandardServiceRegistry registry =
