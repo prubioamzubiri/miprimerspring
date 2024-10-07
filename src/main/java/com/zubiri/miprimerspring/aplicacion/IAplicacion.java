@@ -6,7 +6,7 @@ import com.zubiri.miprimerspring.dominio.Actor;
 
 public interface IAplicacion<T> {
 
-    public T guardar(T t);
+    public boolean guardar(T t);
 
     public T buscar(Object id);
 
