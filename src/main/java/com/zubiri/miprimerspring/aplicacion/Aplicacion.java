@@ -13,8 +13,7 @@ public class Aplicacion<T> implements IAplicacion<T> {
     public boolean guardar(T t) {
         
         try{
-            persistencia.guardar(t);
-            return true;
+            return persistencia.guardar(t);
         }
         catch(Exception e){
             return false;
