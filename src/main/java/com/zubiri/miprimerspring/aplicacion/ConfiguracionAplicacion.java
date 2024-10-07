@@ -4,10 +4,18 @@ package com.zubiri.miprimerspring.aplicacion;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.zubiri.miprimerspring.dominio.Actor;
+import com.zubiri.miprimerspring.persistencia.IPersistencia;
 import com.zubiri.miprimerspring.persistencia.RepositorioPelicula;
 
 @Configuration
 public class ConfiguracionAplicacion {
+
+    @Bean
+    public IAplicacion<Actor> getAplicacionActores(IPersistencia<Actor> persistenciaActor)
+    {
+        return new Aplicacion<Actor>(persistenciaActor);
+    }
 
     @Bean
     public IAplicacionPeliculas getAplicacionPeliculas(RepositorioPelicula persistenciaPelicula)
