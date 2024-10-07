@@ -9,6 +9,9 @@ import com.zubiri.miprimerspring.aplicacion.IAplicacion;
 import com.zubiri.miprimerspring.dominio.Actor;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/actor")
@@ -22,5 +25,13 @@ public class ActorController {
     {
         return aplicacionActores.buscar(id);
     }
+
+    @PostMapping("/addActor")
+    public Actor addActor(@RequestBody Actor actor) {
+  
+        aplicacionActores.guardar(actor);     
+        return actor;
+    }
+    
     
 }
