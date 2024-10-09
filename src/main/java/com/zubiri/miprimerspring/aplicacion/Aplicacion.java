@@ -51,5 +51,15 @@ public class Aplicacion<T> implements IAplicacion<T> {
     public java.util.List<T> obtenerTodos() {
         return null;
     }
+
+    @Override
+    public T actualizar(T t) {
+        
+        if(persistencia.actualizar(t))
+        {
+            return t;
+        }
+        return null;
+    }
     
 }

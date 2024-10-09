@@ -15,5 +15,7 @@ public interface IAplicacion<T> {
     public boolean eliminar(Object id);
 
     public List<T> obtenerTodos();
+
+    public T actualizar(T t);
     
 }

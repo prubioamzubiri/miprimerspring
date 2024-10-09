@@ -51,6 +51,12 @@ public class AplicacionPeliculas implements IAplicacionPeliculas{
         throw new UnsupportedOperationException("Unimplemented method 'getPeliculasPorAno'");
     }
 
+    @Override
+    public Pelicula actualizarPelicula(Pelicula pelicula) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'actualizarPelicula'");
+    }
+
     
     
 }

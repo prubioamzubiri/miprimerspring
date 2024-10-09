@@ -18,4 +18,6 @@ public interface IPersistencia<T> {
 
     public List<T> query(String key, String value);
 
+    
+
 }

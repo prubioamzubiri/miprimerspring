@@ -13,5 +13,7 @@ public interface IAplicacionPeliculas {
     public abstract String insertPelicula(Pelicula pelicula);
 
     public List<Pelicula> getPeliculasPorAno(int ano);
+
+    public Pelicula actualizarPelicula(Pelicula pelicula);
     
 }

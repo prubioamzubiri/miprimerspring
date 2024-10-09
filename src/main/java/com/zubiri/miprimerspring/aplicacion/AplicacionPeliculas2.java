@@ -37,6 +37,12 @@ public class AplicacionPeliculas2 implements IAplicacionPeliculas{
         return persistenciaPelicula.getPeliculasPorAno(ano);
     }
 
+    @Override
+    public Pelicula actualizarPelicula(Pelicula pelicula) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'actualizarPelicula'");
+    }
+
 
     
 }

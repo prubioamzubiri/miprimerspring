@@ -41,6 +41,12 @@ public class AplicationPeliculas4 implements IAplicacionPeliculas{
         return repositorioPelicula.findByAnyo(ano);
     }
 
+    @Override
+    public Pelicula actualizarPelicula(Pelicula pelicula) {
+        
+        return repositorioPelicula.save(pelicula);
+    }
+
     
 
 }

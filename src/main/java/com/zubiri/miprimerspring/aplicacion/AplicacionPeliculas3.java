@@ -36,6 +36,12 @@ public class AplicacionPeliculas3 implements IAplicacionPeliculas{
         return persistenciaPelicula.query("anyo", String.valueOf(ano));
     }
 
+    @Override
+    public Pelicula actualizarPelicula(Pelicula pelicula) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'actualizarPelicula'");
+    }
+
 
     
 }
