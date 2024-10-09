@@ -58,7 +58,6 @@ public class Persistencia<T> implements IPersistencia<T>{
                 session.beginTransaction();
                 session.remove(t);
                 session.getTransaction().commit();
-                return true;
             }
             catch(Exception e){
                 session.getTransaction().rollback();
@@ -66,6 +65,8 @@ public class Persistencia<T> implements IPersistencia<T>{
     
                 return false;
             }
+
+            return true;
     }
 
     @Override

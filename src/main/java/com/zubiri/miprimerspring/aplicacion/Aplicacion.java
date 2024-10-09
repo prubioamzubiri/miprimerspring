@@ -35,7 +35,16 @@ public class Aplicacion<T> implements IAplicacion<T> {
 
     @Override
     public boolean eliminar(Object id) {
-        return false;
+        
+        T t = persistencia.obtener(id);
+
+        if(t == null)
+        {
+            return false;
+        }
+        else{
+            return persistencia.eliminar(t);
+        }
     }
 
     @Override
