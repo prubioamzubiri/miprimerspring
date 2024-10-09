@@ -7,6 +7,10 @@ import com.zubiri.miprimerspring.aplicacion.IAplicacionPeliculas;
 import com.zubiri.miprimerspring.dominio.Actor;
 import com.zubiri.miprimerspring.dominio.Director;
 import com.zubiri.miprimerspring.dominio.Pelicula;
+import com.zubiri.miprimerspring.persistencia.RepositorioActor;
+import com.zubiri.miprimerspring.persistencia.RepositorioDirector;
+
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -17,14 +21,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/peliculas")
+@AllArgsConstructor
 public class PeliculaController {
 
     private IAplicacionPeliculas aplicacionPeliculas;
-
-    public PeliculaController(IAplicacionPeliculas aplicacionPeliculas)
-    {
-        this.aplicacionPeliculas = aplicacionPeliculas;
-    }
+    private RepositorioActor repositorioActor;
+    private RepositorioDirector repositorioDirector;
 
     @GetMapping("/insertData")
     public String getMethodName() {
@@ -41,6 +43,15 @@ public class PeliculaController {
         actors.add(actor2);
         actors.add(actor3);
         actors.add(actor4);
+
+        repositorioActor.save(actor1);
+        repositorioActor.save(actor2);
+        repositorioActor.save(actor3);
+        repositorioActor.save(actor4);
+
+        repositorioDirector.save(director);
+
+
         
         Pelicula pelicula1 = new Pelicula("El padrino", 1972, director, actors),
                  pelicula2 = new Pelicula("El padrino II", 1974, director, actors),
