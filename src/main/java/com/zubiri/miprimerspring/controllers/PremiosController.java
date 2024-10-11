@@ -54,6 +54,13 @@ public class PremiosController {
         return respuesta;
     }
 
+    /**
+     * Retrieves a PremioPeliculaDTO based on the given tituloPremio and anyo.
+     *
+     * @param tituloPremio the title of the premio
+     * @param anyo the year of the premio
+     * @return a PremioPeliculaDTO object containing the premio details, or null if not found
+     */
     @GetMapping("/{tituloPremio}/{anyo}")
     public PremioPeliculaDTO getPremio(@PathVariable String tituloPremio, @PathVariable int anyo) {
         
@@ -70,6 +77,9 @@ public class PremiosController {
         }
         catch(Exception e)
         {
+
+            System.err.println("Error retrieving premio: " + e.getMessage());
+            e.printStackTrace();
 
         }
 
