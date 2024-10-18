@@ -37,7 +37,7 @@ public class PremiosController {
 
         persistenciaPremios.addEvento(evento);
 
-        Pelicula padrino = aplicacionPeliculas.getPelicula(1);
+        Pelicula padrino = aplicacionPeliculas.getPelicula(302);
 
         PremioId premioId1 = new PremioId("Mejor Peli", 1972),
                  premioId2 = new PremioId("Mejor Drama", 1972);

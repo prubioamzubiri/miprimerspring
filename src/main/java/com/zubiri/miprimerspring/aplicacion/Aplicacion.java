@@ -49,7 +49,7 @@ public class Aplicacion<T> implements IAplicacion<T> {
 
     @Override
     public java.util.List<T> obtenerTodos() {
-        return null;
+        return persistencia.obtenerTodos();
     }
 
     @Override
