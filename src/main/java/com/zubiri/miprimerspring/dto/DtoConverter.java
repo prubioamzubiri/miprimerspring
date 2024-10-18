@@ -1,5 +1,6 @@
 package com.zubiri.miprimerspring.dto;
 
+import com.zubiri.miprimerspring.dominio.Director;
 import com.zubiri.miprimerspring.dominio.Evento;
 import com.zubiri.miprimerspring.dominio.PremioPelicula;
 
@@ -16,11 +17,18 @@ public class DtoConverter {
 
     public static EventoDTO fromEvento(Evento evento){
 
-        EventoDTO eventoDTO = new EventoDTO(evento.getNombreDelEvento(),
+        /*EventoDTO eventoDTO = new EventoDTO(evento.getNombreDelEvento(),
                                             evento.getLugar(),
                                             evento.getPais());
         
-        return eventoDTO;
+        return eventoDTO;*/
+
+        EventoDTO toReurn = EventoDTO.builder()
+                .nombreDelEvento(evento.getNombreDelEvento())
+                .lugar(evento.getLugar())
+                .build();
+
+        return toReurn;
                                         
     }
 
@@ -33,6 +41,16 @@ public class DtoConverter {
                                                     premio.getPremioId().getAnyo(),
                                                     evento,
                                                     premio.getPelicula().getName());
+
+        return respuesta;
+    }
+
+    public static Director fromDirector(DirectorDto directorDto)
+    {
+        Director respuesta = Director.builder()
+                            .name(directorDto.getName())                            
+                            .sueldo_anual(directorDto.getSueldo_anual())
+                            .build();
 
         return respuesta;
     }
