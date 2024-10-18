@@ -24,6 +24,8 @@ import com.zubiri.miprimerspring.dominio.Personal;
 import com.zubiri.miprimerspring.dominio.Premio;
 import com.zubiri.miprimerspring.dominio.PremioId;
 import com.zubiri.miprimerspring.dominio.PremioPelicula;
+import com.zubiri.miprimerspring.dominio.user.Rol;
+import com.zubiri.miprimerspring.dominio.user.Usuario;
 
 import jakarta.persistence.EntityManagerFactory;
 
@@ -84,6 +86,12 @@ public class SpringPersistenciaConf {
         return new PersistenciaPelicula(getSession());
     }
 
+    @Bean
+    public IPersistencia<Usuario> getPersistenciaUsuario()
+    {
+        return new Persistencia<Usuario>(getSession(), Usuario.class);
+    }
+
     //Hibernate Session
     public Session getSession()
     {
@@ -107,6 +115,8 @@ public class SpringPersistenciaConf {
                                                         .addAnnotatedClass(Actor.class)
                                                         .addAnnotatedClass(Pelicula.class)
                                                         .addAnnotatedClass(PremioPelicula.class)
+                                                        .addAnnotatedClass(Rol.class)
+                                                        .addAnnotatedClass(Usuario.class)
                                                         .buildSessionFactory();
 
         Session session = sessionFactory.openSession();
