@@ -1,5 +1,6 @@
 package com.zubiri.miprimerspring.controllers;
 
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +30,12 @@ public class ActorController {
     public Actor buscarActor(@PathVariable Integer id)
     {
         return aplicacionActores.buscar(id);
+    }
+
+    @GetMapping("")
+    public List<Actor> buscarActores()
+    {
+        return aplicacionActores.obtenerTodos();
     }
 
     @PostMapping("/addActor")

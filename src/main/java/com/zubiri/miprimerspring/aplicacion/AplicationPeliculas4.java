@@ -32,6 +32,7 @@ public class AplicationPeliculas4 implements IAplicacionPeliculas{
     public String insertPelicula(Pelicula pelicula) {
         
         repositorioPelicula.save(pelicula);
+        
         return "Pelicula insertada";
     }
 
