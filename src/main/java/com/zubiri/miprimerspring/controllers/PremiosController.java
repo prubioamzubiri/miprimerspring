@@ -9,8 +9,8 @@ import com.zubiri.miprimerspring.dominio.Pelicula;
 import com.zubiri.miprimerspring.dominio.Premio;
 import com.zubiri.miprimerspring.dominio.PremioId;
 import com.zubiri.miprimerspring.dominio.PremioPelicula;
-import com.zubiri.miprimerspring.dto.DtoConverter;
 import com.zubiri.miprimerspring.dto.PremioPeliculaDTO;
+import com.zubiri.miprimerspring.dto.converter.DtoConverter;
 import com.zubiri.miprimerspring.persistencia.IPersistenciaPremios;
 
 import lombok.AllArgsConstructor;
