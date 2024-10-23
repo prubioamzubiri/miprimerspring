@@ -73,11 +73,11 @@ public class SecurityConf{
 
         
         http
-            .csrf(AbstractHttpConfigurer::disable)
+            //.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests((requests) -> requests              
                 .requestMatchers("/actor/**").hasRole("USER")
                 .requestMatchers( "/actor/addActor").hasRole("ADMIN")
-                .requestMatchers("/security/**").hasRole("USER")
+                //.requestMatchers("/security/**").authenticated()
                 .anyRequest().permitAll()
                 )
             .httpBasic(Customizer.withDefaults())
