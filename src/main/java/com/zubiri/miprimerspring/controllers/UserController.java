@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -53,7 +54,7 @@ public class UserController {
                              .body(null);
     }
 
-    @RequestMapping("/me")
+    @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
     GetUserDto getUserDto(@AuthenticationPrincipal Usuario user){
         return userConverter.fromUser(user);

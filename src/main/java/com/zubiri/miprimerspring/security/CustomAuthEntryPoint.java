@@ -2,7 +2,6 @@ package com.zubiri.miprimerspring.security;
 
 import java.io.IOException;
 
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
