@@ -13,25 +13,38 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.zubiri.miprimerspring.persistencia.RepositorioUsuario;
+
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConf{
 
+    PasswordEncoder passwordEncoder;
 
+
+    @Bean
+    public UserDetailsService customUserDetailsService(RepositorioUsuario repositorioUsuario){
+        return new CustomUserDetailsService(repositorioUsuario);
+    }
     /*
 
     @Bean
     public AuthenticationProvider customAuthenticationProvider() {
         return new CustomAuthenticationProvider();
     }
-    */
+    
     
     @Bean
     public UserDetailsService userDetailsService(){
@@ -40,12 +53,12 @@ public class SecurityConf{
 
         UserDetails usuario1 = User.builder()
                                     .username("user")
-                                    .password("1234")
+                                    .password(passwordEncoder.encode("1234"))
                                     .roles("USER")
                                     .build(),
                     usuario2= User.builder()
                                     .username("admin")
-                                    .password("1234")
+                                    .password(passwordEncoder.encode("1234"))
                                     .roles("USER","ADMIN")
                                     .build();
 
@@ -54,7 +67,7 @@ public class SecurityConf{
         userService.createUser(usuario2);
 
         return userService;
-    }
+    }*/
 
     /*@Bean
     public UserDetailsService userDetailsService(DataSource dataSource){
