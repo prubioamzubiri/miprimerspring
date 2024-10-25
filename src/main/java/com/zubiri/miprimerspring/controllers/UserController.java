@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.function.EntityResponse;
 
+import com.zubiri.miprimerspring.aplicacion.AplicacionUsuario;
 import com.zubiri.miprimerspring.dominio.user.Usuario;
 import com.zubiri.miprimerspring.dto.GetUserDto;
 import com.zubiri.miprimerspring.dto.UserInDto;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class UserController {
 
     UserDtoConverter userConverter;
-    RepositorioUsuario repositorioUsuario;
+    AplicacionUsuario aplicacionUsuario;
 
 
     @PostMapping("/register")
@@ -38,16 +39,18 @@ public class UserController {
            && (entity.getEmail().compareTo(entity.getEmail2())==0))
         {
 
-            repositorioUsuario.save(userConverter.toUser(entity));
+            GetUserDto to_return = aplicacionUsuario.guardar(entity);
 
-            return ResponseEntity.status(HttpStatus.CREATED)
-            .body(userConverter.fromUser(userConverter.toUser(entity)));
+            if (to_return != null)
+            {
+                return ResponseEntity.status(HttpStatus.CREATED)
+                                     .body(to_return);
+                
+            }
         }
-        else
-        {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(null);
-        } 
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                             .body(null);
     }
 
     @RequestMapping("/me")

@@ -36,6 +36,10 @@ public class AplicacionUsuario {
                                 email(usuario.getEmail()).
                                 roles(Stream.of(Rol.USER).collect(Collectors.toSet())).
                                 build();
+
+                repositorioUsuario.save(user);
+
+                return userConverter.fromUser(user);
             }
             else
             {
