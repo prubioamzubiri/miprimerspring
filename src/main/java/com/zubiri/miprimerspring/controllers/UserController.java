@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/user")
 @AllArgsConstructor
+@EnableMethodSecurity
 public class UserController {
 
     UserDtoConverter userConverter;
@@ -48,6 +51,7 @@ public class UserController {
     }
 
     @RequestMapping("/me")
+    @PreAuthorize("isAuthenticated()")
     GetUserDto getUserDto(@AuthenticationPrincipal Usuario user){
         return userConverter.fromUser(user);
     }
