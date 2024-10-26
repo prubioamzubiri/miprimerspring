@@ -2,8 +2,6 @@ package com.zubiri.miprimerspring.aplicacion;
 
 import java.util.List;
 
-import com.zubiri.miprimerspring.dominio.Actor;
-
 public interface IAplicacion<T> {
 
     public boolean guardar(T t);

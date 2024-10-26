@@ -1,6 +1,5 @@
 package com.zubiri.miprimerspring.aplicacion;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.zubiri.miprimerspring.dominio.user.Rol;
