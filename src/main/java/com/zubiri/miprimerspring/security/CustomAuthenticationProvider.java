@@ -2,13 +2,12 @@ package com.zubiri.miprimerspring.security;
 
 import java.util.Arrays;
 
-import org.springframework.security.access.event.AuthenticationCredentialsNotFoundEvent;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.stereotype.Component;
+
 
 
 public class CustomAuthenticationProvider implements AuthenticationProvider {
