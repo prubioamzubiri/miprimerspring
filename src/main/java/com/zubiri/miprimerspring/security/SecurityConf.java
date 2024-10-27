@@ -67,17 +67,6 @@ public class SecurityConf{
         return userService;
     }*/
 
-    /*@Bean
-    public UserDetailsService userDetailsService(DataSource dataSource){
-
-        String usersByUsernameQuery = "select username, password, enabled from Usuarios where username = ?";
-        
-        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
-        jdbcUserDetailsManager.setDataSource(dataSource);
-        jdbcUserDetailsManager.setUsersByUsernameQuery(usersByUsernameQuery);
-        return jdbcUserDetailsManager;
-
-    }*/
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
