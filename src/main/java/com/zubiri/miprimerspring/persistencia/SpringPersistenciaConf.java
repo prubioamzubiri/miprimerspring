@@ -21,6 +21,7 @@ import com.zubiri.miprimerspring.dominio.Personal;
 import com.zubiri.miprimerspring.dominio.Premio;
 import com.zubiri.miprimerspring.dominio.PremioId;
 import com.zubiri.miprimerspring.dominio.PremioPelicula;
+import com.zubiri.miprimerspring.dominio.usuario.UserRoles;
 import com.zubiri.miprimerspring.dominio.usuario.Usuario;
 
 import jakarta.persistence.EntityManagerFactory;
@@ -111,6 +112,7 @@ public class SpringPersistenciaConf {
                                                         .addAnnotatedClass(Actor.class)
                                                         .addAnnotatedClass(Pelicula.class)
                                                         .addAnnotatedClass(PremioPelicula.class)
+                                                        .addAnnotatedClass(UserRoles.class)
                                                         .addAnnotatedClass(Usuario.class)
                                                         .buildSessionFactory();
 
