@@ -5,11 +5,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.zubiri.miprimerspring.dominio.Actor;
+import com.zubiri.miprimerspring.dominio.usuario.Usuario;
+import com.zubiri.miprimerspring.dto.userdtos.UserDtoConverter;
 import com.zubiri.miprimerspring.persistencia.IPersistencia;
 import com.zubiri.miprimerspring.persistencia.RepositorioPelicula;
 
 @Configuration
 public class ConfiguracionAplicacion {
+
+
+    @Bean
+    public AplicacionUsuario getAplicacionUsuario(IPersistencia<Usuario> persistenciaUsuario,
+                                                  UserDtoConverter userDtoConverter)
+    {
+        return new AplicacionUsuario(persistenciaUsuario, userDtoConverter);
+    }
 
     @Bean
     public IAplicacion<Actor> getAplicacionActores(IPersistencia<Actor> persistenciaActor)

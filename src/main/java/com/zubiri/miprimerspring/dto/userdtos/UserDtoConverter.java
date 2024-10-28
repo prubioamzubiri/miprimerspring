@@ -14,7 +14,7 @@ public class UserDtoConverter {
 
     PasswordEncoder passwordEncoder;
 
-    public Usuario toUserGetDto(UserRegisterDto user) {
+    public Usuario toUser(UserRegisterDto user) {
         return Usuario.builder()
                 .username(user.getUsername())
                 .password(passwordEncoder.encode(user.getPassword()))
