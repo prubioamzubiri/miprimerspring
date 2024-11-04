@@ -55,8 +55,7 @@ public class AplicacionUsuario extends Aplicacion<Usuario>{
 
     @Override
     public Usuario buscarPorNombre(String nombre) {
-
-        
+       
         return persistencia.query("username", nombre).getFirst();
 
     }
