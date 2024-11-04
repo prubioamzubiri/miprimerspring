@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/usuarios")
 @AllArgsConstructor
+
 public class UsuarioControler {
 
     AplicacionUsuario aplicacionUsuario;
