@@ -49,4 +49,19 @@ public class AplicacionUsuario {
             return null;
         }
     }
+
+    public GetUserDto createAdmin()
+    {
+        Usuario user = Usuario.builder().
+                        username("admin").
+                        password(passwordEncoder.encode("admin")).
+                        email("admin@admin.com")
+                        .roles(Stream.of(Rol.ADMIN, Rol.USER).collect(Collectors.toSet()))
+                        .build();
+
+        repositorioUsuario.save(user);
+
+        return userConverter.fromUser(user);
+                    
+    }
 }

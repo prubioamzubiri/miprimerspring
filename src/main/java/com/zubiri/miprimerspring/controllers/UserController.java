@@ -3,10 +3,12 @@ package com.zubiri.miprimerspring.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mysql.cj.log.Log;
 import com.zubiri.miprimerspring.aplicacion.AplicacionUsuario;
 import com.zubiri.miprimerspring.dominio.user.Usuario;
 import com.zubiri.miprimerspring.dto.GetUserDto;
 import com.zubiri.miprimerspring.dto.UserInDto;
+import com.zubiri.miprimerspring.dto.converter.LoginDto;
 import com.zubiri.miprimerspring.dto.converter.UserDtoConverter;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -64,10 +66,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
+                    new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword())
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -80,7 +82,7 @@ public class UserController {
 
     @GetMapping("/create")
     public ResponseEntity<GetUserDto> create() {
-        GetUserDto to_return = aplicacionUsuario.guardar(new UserInDto("Admin", "admin", "admin", "admin@admin.com","admin@admin.com"));
+        GetUserDto to_return = aplicacionUsuario.createAdmin();
         if (to_return != null)
         {
             return ResponseEntity.status(HttpStatus.CREATED)
