@@ -34,10 +34,6 @@ public class SecurityConf {
     private UserDetailsService customUserDetailsService;
 
 
-
-
-
-
     @Bean
     public AuthenticationManager authenticationManagerBean(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
@@ -52,7 +48,7 @@ public class SecurityConf {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/user/login", "/user/register", "/swagger-ui/**").permitAll()
+                .requestMatchers("/user/login", "/user/register", "/user/create", "/swagger-ui/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session

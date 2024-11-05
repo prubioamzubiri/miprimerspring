@@ -78,6 +78,18 @@ public class UserController {
         }
     }
 
+    @GetMapping("/create")
+    public ResponseEntity<GetUserDto> create() {
+        GetUserDto to_return = aplicacionUsuario.guardar(new UserInDto("Admin", "admin", "admin", "admin@admin.com","admin@admin.com"));
+        if (to_return != null)
+        {
+            return ResponseEntity.status(HttpStatus.CREATED)
+                                 .body(to_return);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                             .body(null);
+    }
+
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
     GetUserDto getUserDto(@AuthenticationPrincipal Usuario user){
