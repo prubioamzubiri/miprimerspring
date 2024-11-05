@@ -9,6 +9,15 @@ import com.zubiri.miprimerspring.dto.GetUserDto;
 import com.zubiri.miprimerspring.dto.UserInDto;
 import com.zubiri.miprimerspring.dto.converter.UserDtoConverter;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.zubiri.miprimerspring.security.jwt.JwtAuthenticationResponse;
+import com.zubiri.miprimerspring.security.jwt.JwtTokenProvider;
 
 import lombok.AllArgsConstructor;
 
@@ -30,7 +39,8 @@ public class UserController {
 
     UserDtoConverter userConverter;
     AplicacionUsuario aplicacionUsuario;
-
+    AuthenticationManager authenticationManager;
+    JwtTokenProvider tokenProvider;
 
     @PostMapping("/register")
     public ResponseEntity<GetUserDto> Register(@RequestBody UserInDto entity) {
@@ -51,6 +61,21 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                              .body(null);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticateUser(@RequestParam String username, @RequestParam String password) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password)
+            );
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = tokenProvider.generateToken(authentication);
+            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        }
     }
 
     @GetMapping("/me")
