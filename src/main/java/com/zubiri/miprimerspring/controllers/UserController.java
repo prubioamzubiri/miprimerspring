@@ -78,7 +78,11 @@ public class UserController {
 
             String jwt = tokenProvider.generateToken(authentication);
 
-            response.addCookie(new Cookie("jwt", jwt));
+            Cookie cookie = new Cookie("jwt", jwt);
+            cookie.setPath("/");
+
+            response.addCookie(cookie);
+            
             return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
 
         } catch (AuthenticationException e) {
