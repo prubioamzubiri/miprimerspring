@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mysql.cj.log.Log;
 import com.zubiri.miprimerspring.aplicacion.AplicacionUsuario;
-import com.zubiri.miprimerspring.dominio.user.Admin;
 import com.zubiri.miprimerspring.dominio.user.Usuario;
 import com.zubiri.miprimerspring.dto.GetUserDto;
 import com.zubiri.miprimerspring.dto.UserInDto;
@@ -20,7 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.zubiri.miprimerspring.security.jwt.JwtTokenProvider;
 
-
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
@@ -79,23 +78,22 @@ public class UserController {
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
             String jwt = tokenProvider.generateToken(authentication);
 
 
+
             ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
-                                                  .path("/")
-                                                  .httpOnly(true)
-                                                  .sameSite("None")
-                                                  .build();
-            
-
-
+                                                .path("/")
+                                                .httpOnly(true)
+                                                .sameSite("None")
+                                                .build();
             response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
             return ResponseEntity.ok("Logged in");
-            
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                 .body("Invalid username/password supplied");
         }
     }
 
