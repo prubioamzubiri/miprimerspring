@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.zubiri.miprimerspring.security.jwt.JwtAuthenticationResponse;
 import com.zubiri.miprimerspring.security.jwt.JwtTokenProvider;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
 import org.springframework.http.HttpStatus;
@@ -66,15 +68,19 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto, HttpServletResponse response) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword())
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
             String jwt = tokenProvider.generateToken(authentication);
+
+            response.addCookie(new Cookie("jwt", jwt));
             return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
