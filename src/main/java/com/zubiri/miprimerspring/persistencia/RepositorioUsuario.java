@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.zubiri.miprimerspring.dominio.user.Usuario;
 
-public interface RepositorioUsuario extends CrudRepository<Usuario, String> {
+public interface RepositorioUsuario extends CrudRepository<Usuario, Long> {
 
     Optional<Usuario> findByUsername(String username);
     
