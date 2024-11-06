@@ -50,6 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
+<<<<<<< HEAD
             
         String bearerToken = null;
         Cookie[] cookies = request.getCookies();
@@ -66,6 +67,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             
         if (bearerToken != null) {
             return bearerToken;
+=======
+            String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+>>>>>>> f3c5889 (Eliminar clases CustomAuthEntryPoint y CustomAuthenticationProvider, y ajustar configuración de seguridad en SecurityConf y JwtAuthenticationFilter)
         }
         return null;
     }
