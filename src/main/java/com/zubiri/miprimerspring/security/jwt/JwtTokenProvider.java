@@ -1,20 +1,27 @@
 package com.zubiri.miprimerspring.security.jwt;
 
-import io.jsonwebtoken.Claims;
+
 import io.jsonwebtoken.Jwts;
 
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+import javax.crypto.SecretKey;
+
 @Component
+@RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    @Value("${jwt.secret}")
-    private String jwtSecret;
+
+    @Autowired
+    SecretKey key;
 
     @Value("${jwt.expiration}")
     private int jwtExpirationInMs;
@@ -24,21 +31,24 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
         return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
-                .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
+                .subject(username)
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .signWith(key)
                 .compact();
     }
 
     public String getUsernameFromJWT(String token) {
         try {
-            Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(jwtSecret.getBytes())
+            String username = Jwts
+                    .parser()
+                    .verifyWith(key)
                     .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-            return claims.getSubject();
+                    .parseSignedClaims(token)
+                    .getPayload()
+                    .getSubject();          
+            return username;
+
         } catch (Exception ex) {
             throw new RuntimeException("Unable to get username from token", ex);
         }
@@ -46,10 +56,11 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parserBuilder()
-                .setSigningKey(jwtSecret.getBytes())
+            Jwts.parser()
+                .verifyWith(key)
                 .build()
-                .parseClaimsJws(authToken);
+                .parseSignedClaims(authToken);
+
             return true;
         } catch (io.jsonwebtoken.security.SecurityException ex) {
             throw new RuntimeException("Invalid JWT signature");
