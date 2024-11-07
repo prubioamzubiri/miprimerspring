@@ -19,6 +19,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+import jakarta.servlet.http.Cookie;
+
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -48,10 +50,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private String getJwtFromRequest(jakarta.servlet.http.HttpServletRequest request) {
-            String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+    private String getJwtFromRequest(HttpServletRequest request) {
+            
+        String bearerToken = null;
+        Cookie[] cookies = request.getCookies();
+
+        System.out.println("Cookies: " + cookies);
+
+        if(cookies != null){
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("jwt")) {
+                    bearerToken = cookie.getValue();
+                }
+            }
+        }
+            
+        if (bearerToken != null) {
+            return bearerToken;
         }
         return null;
     }
