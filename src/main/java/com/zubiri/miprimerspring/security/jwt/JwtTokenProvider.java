@@ -27,51 +27,57 @@ public class JwtTokenProvider {
     private int jwtExpirationInMs;
 
     public String generateToken(Authentication authentication) {
+
         String username = authentication.getName();
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(key)
                 .compact();
+
+
     }
 
-    public String getUsernameFromJWT(String token) {
-        try {
-            String username = Jwts
-                    .parser()
-                    .verifyWith(key)
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload()
-                    .getSubject();          
-            return username;
+    public String getUsernameFromJWT(String authToken) {
+
+        String toReturn = null;
+
+        try{
+            toReturn = Jwts.parser()
+                            .verifyWith(key)
+                            .build()
+                            .parseSignedClaims(authToken)
+                            .getPayload()
+                            .getSubject();
+            
+            return toReturn;
 
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to get username from token", ex);
+
+            ex.printStackTrace();
+            return null;
         }
+
     }
 
     public boolean validateToken(String authToken) {
-        try {
+
+        try{
             Jwts.parser()
                 .verifyWith(key)
                 .build()
                 .parseSignedClaims(authToken);
-
+            
             return true;
-        } catch (io.jsonwebtoken.security.SecurityException ex) {
-            throw new RuntimeException("Invalid JWT signature");
-        } catch (io.jsonwebtoken.ExpiredJwtException ex) {
-            throw new RuntimeException("Expired JWT token");
-        } catch (io.jsonwebtoken.UnsupportedJwtException ex) {
-            throw new RuntimeException("Unsupported JWT token");
-        } catch (io.jsonwebtoken.MalformedJwtException ex) {
-            throw new RuntimeException("Malformed JWT token");
         } catch (Exception ex) {
-            throw new RuntimeException("Invalid JWT token");
+
+            ex.printStackTrace();
+            return false;
         }
+
     }
 }

@@ -25,9 +25,11 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
+import org.springframework.http.HttpHeaders;
 import java.net.http.HttpResponse;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -78,11 +80,18 @@ public class UserController {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = tokenProvider.generateToken(authentication);
-            
-            Cookie cookie = new Cookie("jwt", jwt);
-            cookie.setPath("/");
 
-            response.addCookie(cookie);
+
+            ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
+                                                  .path("/")
+                                                  .httpOnly(true)
+                                                  .maxAge(3600)
+                                                  .sameSite("None")
+                                                  .build();
+            
+
+
+            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
             return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
             
