@@ -23,6 +23,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
+import org.springframework.http.HttpHeaders;
 import java.net.http.HttpResponse;
 
 import org.springframework.http.HttpStatus;
@@ -79,24 +80,31 @@ public class UserController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             String jwt = tokenProvider.generateToken(authentication);
-<<<<<<< HEAD
 
-=======
-            
->>>>>>> bc07cf6 (Agregar soporte para almacenar el token JWT en una cookie durante la autenticación de usuario)
             Cookie cookie = new Cookie("jwt", jwt);
             cookie.setPath("/");
 
             response.addCookie(cookie);
-<<<<<<< HEAD
             
             return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
 
-=======
+
+
+            ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
+                                                  .path("/")
+                                                  .httpOnly(true)
+                                                  .maxAge(3600)
+                                                  .sameSite("None")
+                                                  .build();
+            
+
+
+            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
 
             return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
             
->>>>>>> bc07cf6 (Agregar soporte para almacenar el token JWT en una cookie durante la autenticación de usuario)
+
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                                  .body("Invalid username/password supplied");
