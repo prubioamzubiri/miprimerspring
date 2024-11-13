@@ -23,8 +23,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpHeaders;
-import java.net.http.HttpResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -81,19 +81,10 @@ public class UserController {
 
             String jwt = tokenProvider.generateToken(authentication);
 
-            Cookie cookie = new Cookie("jwt", jwt);
-            cookie.setPath("/");
-
-            response.addCookie(cookie);
-            
-            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
-
-
 
             ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
                                                   .path("/")
                                                   .httpOnly(true)
-                                                  .maxAge(3600)
                                                   .sameSite("None")
                                                   .build();
             
@@ -101,8 +92,7 @@ public class UserController {
 
             response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-
-            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+            return ResponseEntity.ok("Logged in");
             
 
         } catch (AuthenticationException e) {
