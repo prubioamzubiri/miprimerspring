@@ -73,6 +73,7 @@ public class JwtTokenProvider {
                 .parseSignedClaims(authToken);
             
             return true;
+            
         } catch (Exception ex) {
 
             ex.printStackTrace();

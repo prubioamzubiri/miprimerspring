@@ -37,14 +37,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 
         String jwt = getJwtFromRequest(request);
 
-        if (jwt != null && tokenProvider.validateToken(jwt)) {
+        if(jwt != null && tokenProvider.validateToken(jwt))
+        {
             String username = tokenProvider.getUsernameFromJWT(jwt);
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(userDetails,
+                                                        null,
+                                                        userDetails.getAuthorities());
+            token.setDetails(new WebAuthenticationDetailsSource()
+                                .buildDetails(request));
+
+            SecurityContextHolder.getContext().setAuthentication(token);
         }
 
         filterChain.doFilter(request, response);
@@ -55,19 +61,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String bearerToken = null;
         Cookie[] cookies = request.getCookies();
 
-        System.out.println("Cookies: " + cookies);
-
-        if(cookies != null){
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("jwt")) {
+        if(cookies != null)
+        {
+            for(Cookie cookie : cookies)
+            {
+                if(cookie.getName().equals("jwt"))
+                {
                     bearerToken = cookie.getValue();
+                    break;
                 }
             }
-        }
+
             
-        if (bearerToken != null) {
-            return bearerToken;
         }
-        return null;
+
+        return bearerToken;
     }
 }
