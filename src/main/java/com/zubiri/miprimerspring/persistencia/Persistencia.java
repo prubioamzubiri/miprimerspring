@@ -84,7 +84,7 @@ public class Persistencia<T> implements IPersistencia<T>{
     }
 
     @Override
-    public List<T> query(String key, String value) {
+    public List<T> query(String key, Object value) {
             
             return session
                     .createQuery("from " + classType.getName() + " where " + key + " = :value",classType)
