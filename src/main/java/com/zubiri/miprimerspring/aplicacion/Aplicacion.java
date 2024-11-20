@@ -14,6 +14,7 @@ public class Aplicacion<T> implements IAplicacion<T> {
         
         try{
             return persistencia.guardar(t);
+
         }
         catch(Exception e){
             return false;
