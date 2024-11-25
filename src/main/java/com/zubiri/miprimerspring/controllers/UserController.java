@@ -101,6 +101,23 @@ public class UserController {
         }
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser(HttpServletResponse response) {
+        
+        ResponseCookie cookie = ResponseCookie.from("jwt", "")
+                                                .path("/")
+                                                .httpOnly(true)
+                                                .sameSite("None")
+                                                .maxAge(0)
+                                                .build();
+
+
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        return ResponseEntity.ok("Logged out");
+    }
+
     @GetMapping("/create")
     public ResponseEntity<GetUserDto> create() {
         GetUserDto to_return = aplicacionUsuario.createAdmin();
