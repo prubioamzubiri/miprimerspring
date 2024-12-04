@@ -5,5 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import com.zubiri.miprimerspring.dominio.Dibujo;
 
 public interface RepositorioDibujo extends CrudRepository<Dibujo, Long> {
+
+    Dibujo findByNombre(String nombre);
     
 }

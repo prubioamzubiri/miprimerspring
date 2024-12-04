@@ -51,6 +51,7 @@ public class SecurityConf {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/user/*", "/user/register", "/user/create", "/swagger-ui/**").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
+                .requestMatchers("/dibujo/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
