@@ -7,7 +7,7 @@ on:
 
 jobs:
   echo:
-    runs-on: unbuntu-latest
+    runs-on: unbuntu-20.04
     steps:
       - name: Saludar
         uses: actions/checkout@v2
