@@ -1,0 +1,13 @@
+name: miprimeraction
+
+on:
+  push:
+    branches:
+      - imagenes
+
+jobs:
+  echo:
+    runs-on: unbuntu-latest
+    steps:
+      - name: Saludar
+        run: echo "Hola, ${{ github.actor }}"
