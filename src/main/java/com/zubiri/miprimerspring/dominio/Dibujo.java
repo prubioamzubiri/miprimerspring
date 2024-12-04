@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -39,9 +41,10 @@ public class Dibujo {
     
     }
 
-    public File getFile()
-    {
-        return new File(this.path);
+    public File getFile() throws IOException {
+        File file = new File(this.path);
+        return file;
+
     }
     
     

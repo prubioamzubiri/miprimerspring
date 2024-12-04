@@ -3,6 +3,7 @@ package com.zubiri.miprimerspring.controllers;
 import java.io.File;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 
+import java.io.InputStream;
+import java.io.FileInputStream;
+
 
 @RestController
 @RequestMapping("/dibujo")
@@ -34,7 +38,7 @@ public class DibujoController {
     @PostMapping("/upload")
     public ResponseEntity<String> upload(@RequestPart("file") MultipartFile file) {
         try {
-            Dibujo dibujo = new Dibujo(file.getOriginalFilename().split(".")[0], file);
+            Dibujo dibujo = new Dibujo(file.getOriginalFilename().split("\\.")[0], file);
 
             repositorioDibujo.save(dibujo);
 
@@ -45,11 +49,21 @@ public class DibujoController {
     }
 
     @GetMapping("/download/{param}")
-    public File getMethodName(@PathVariable String param) {
-        
-        Dibujo dibujo = repositorioDibujo.findByNombre(param);
-        return dibujo.getFile();
+    public ResponseEntity<InputStreamResource> download(@PathVariable String param) {
+        try {
+            Dibujo dibujo = repositorioDibujo.findByNombre(param);
+
+            InputStream is = new FileInputStream(dibujo.getFile());
+
+            InputStreamResource resource = new InputStreamResource(is);
+
+            return ResponseEntity.ok()
+                    .header("Content-Disposition", "attachment; filename=" + dibujo.getFile().getName())
+                    .body(resource); 
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-    
-    
 }
