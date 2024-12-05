@@ -80,7 +80,7 @@ public class DibujoController {
 
     @PostMapping("/uploadS3")
    // @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<String> uploadS3(//@AuthenticationPrincipal Usuario usuario, 
+    public ResponseEntity<String> uploadS3(//@AuthenticationPrincipal Usuario usuario,
                                             @RequestPart("file") MultipartFile file) {
 
         try {

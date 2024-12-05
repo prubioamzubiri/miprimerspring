@@ -89,7 +89,7 @@ public class AplicacionDibujo{
 
     
 
-    public boolean uploadToS3 (String bucketName, String key, MultipartFile file) {
+    public boolean uploadToS3 (String bucketName, String key, MultipartFile file) throws IllegalStateException, IOException {
 
         Region region = Region.US_EAST_1;
         S3Client s3 = S3Client.builder()
@@ -107,6 +107,9 @@ public class AplicacionDibujo{
             e.printStackTrace();
             return false;
         }
+
+        Dibujo dibujo = new Dibujo(key, file);
+        repositorioDibujo.save(dibujo);
 
         s3.putObject(PutObjectRequest.builder().bucket(bucketName).key(key).build(), filePath);
 
