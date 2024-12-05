@@ -37,7 +37,7 @@ public class AplicacionDibujo{
         
             Dibujo dibujo;
             try {
-                dibujo = new Dibujo(file.getOriginalFilename().split("\.")[0], file);
+                dibujo = new Dibujo(file.getOriginalFilename().split(".")[0], file);
                 repositorioDibujo.save(dibujo);
             } catch (IllegalStateException | IOException e) {
                 // TODO Auto-generated catch block
@@ -165,4 +165,22 @@ public class AplicacionDibujo{
         
         return true;
     }
+
+    public void testDownloadFromS3() throws FileNotFoundException {
+
+        String bucketName = "myfirstbucketzubiri";
+        String key = "prueba.txt";
+        
+        Region region = Region.US_EAST_1;
+        S3Client s3 = S3Client.builder()
+            .region(region)
+            .build();
+
+        String filepath = "./auxiliar" + key;
+
+        s3.getObject(GetObjectRequest.builder().bucket(bucketName).key(key).build(), Path.of(filepath));
+
+    }
+
+    
 }

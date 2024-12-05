@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 
 import java.io.InputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 
 @RestController
@@ -41,7 +42,7 @@ public class DibujoController {
     @PostMapping("/upload")
     public ResponseEntity<String> upload(@RequestPart("file") MultipartFile file) {
         try {
-            Dibujo dibujo = new Dibujo(file.getOriginalFilename().split("\\.")[0], file);
+            Dibujo dibujo = new Dibujo(file.getOriginalFilename().split(".")[0], file);
 
             repositorioDibujo.save(dibujo);
 
@@ -93,7 +94,8 @@ public class DibujoController {
     }
 
     @PostMapping("/tests3")
-    public void testS3() {
+    public void testS3() throws FileNotFoundException {
         aplicacionDibujo.testUploadToS3();
+        aplicacionDibujo.testDownloadFromS3();
     }
 }
