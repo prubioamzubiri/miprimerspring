@@ -7,9 +7,9 @@
   <session-factory>
     <!-- <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property> -->
     <!-- property name="connection.driver_class">com.mysql.jdbc.Driver</property -->
-    <property name="connection.url">jdbc:mysql://localhost:3306/Peliculas</property>
-    <property name="connection.username">Pablo</property>
-    <property name="connection.password">123456</property>
+    <property name="connection.url">jdbc:mysql://database-2.ch4zek8bsym6.us-east-1.rds.amazonaws.com:3306/Peliculas</property>
+    <property name="connection.username">admin</property>
+    <property name="connection.password">P96TndiayM5hL3Z4rEsL</property>
     <!--property name="dialect">org.hibernate.dialect.MySQLDialect</property-->
     <property name="show_sql">true</property>
     <property name="format_sql">true</property>

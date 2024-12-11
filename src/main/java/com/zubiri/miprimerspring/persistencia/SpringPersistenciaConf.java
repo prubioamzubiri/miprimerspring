@@ -34,9 +34,9 @@ public class SpringPersistenciaConf {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost/Peliculas");
-        dataSource.setUsername("Pablo");
-        dataSource.setPassword("123456");
+        dataSource.setUrl("jdbc:mysql://database-2.ch4zek8bsym6.us-east-1.rds.amazonaws.com/Peliculas");
+        dataSource.setUsername("admin");
+        dataSource.setPassword("P96TndiayM5hL3Z4rEsL");
         return dataSource;
     }
 
