@@ -42,6 +42,7 @@ public class SecurityConf {
                 .passwordEncoder(passwordEncoder);
                 
         return authenticationManagerBuilder.build();
+
     }
 
     @Bean

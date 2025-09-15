@@ -10,7 +10,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -31,6 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
 
     @Override
+
 
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response, 
@@ -59,6 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String getJwtFromRequest(HttpServletRequest request) {
 
+
         String bearerToken = null;
         Cookie[] cookies = request.getCookies();
 
@@ -73,7 +74,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
 
+
             
+        String bearerToken = null;
+        Cookie[] cookies = request.getCookies();
+
+        System.out.println("Cookies: " + cookies);
+
+        if(cookies != null){
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("jwt")) {
+                    bearerToken = cookie.getValue();
+                }
+            }
+        }
+            
+        if (bearerToken != null) {
+            return bearerToken;
+
         }
 
         return bearerToken;
