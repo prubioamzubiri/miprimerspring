@@ -1,8 +1,11 @@
-package com.zubiri.miprimerspring.dto;
+package com.zubiri.miprimerspring.dto.converter;
 
 import com.zubiri.miprimerspring.dominio.Director;
 import com.zubiri.miprimerspring.dominio.Evento;
 import com.zubiri.miprimerspring.dominio.PremioPelicula;
+import com.zubiri.miprimerspring.dto.DirectorDto;
+import com.zubiri.miprimerspring.dto.EventoDTO;
+import com.zubiri.miprimerspring.dto.PremioPeliculaDTO;
 
 public class DtoConverter {
 

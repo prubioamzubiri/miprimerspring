@@ -4,16 +4,12 @@ import javax.sql.DataSource;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import com.zubiri.miprimerspring.dominio.Actor;
@@ -24,6 +20,8 @@ import com.zubiri.miprimerspring.dominio.Personal;
 import com.zubiri.miprimerspring.dominio.Premio;
 import com.zubiri.miprimerspring.dominio.PremioId;
 import com.zubiri.miprimerspring.dominio.PremioPelicula;
+import com.zubiri.miprimerspring.dominio.user.Rol;
+import com.zubiri.miprimerspring.dominio.user.Usuario;
 
 import jakarta.persistence.EntityManagerFactory;
 
@@ -84,6 +82,12 @@ public class SpringPersistenciaConf {
         return new PersistenciaPelicula(getSession());
     }
 
+    @Bean
+    public IPersistencia<Usuario> getPersistenciaUsuario()
+    {
+        return new Persistencia<Usuario>(getSession(), Usuario.class);
+    }
+
     //Hibernate Session
     public Session getSession()
     {
@@ -107,6 +111,8 @@ public class SpringPersistenciaConf {
                                                         .addAnnotatedClass(Actor.class)
                                                         .addAnnotatedClass(Pelicula.class)
                                                         .addAnnotatedClass(PremioPelicula.class)
+                                                        .addAnnotatedClass(Rol.class)
+                                                        .addAnnotatedClass(Usuario.class)
                                                         .buildSessionFactory();
 
         Session session = sessionFactory.openSession();
