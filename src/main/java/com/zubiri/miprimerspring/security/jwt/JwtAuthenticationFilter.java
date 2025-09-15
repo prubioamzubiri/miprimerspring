@@ -1,6 +1,7 @@
 package com.zubiri.miprimerspring.security.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+import jakarta.servlet.http.Cookie;
+
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -27,30 +30,51 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
 
     @Override
-    protected void doFilterInternal(@SuppressWarnings("null") HttpServletRequest request,
-                                    @SuppressWarnings("null") HttpServletResponse response, 
-                                    @SuppressWarnings("null") FilterChain filterChain) throws IOException, ServletException {
-                
+
+
+    protected void doFilterInternal(@NonNull HttpServletRequest request,
+                                    @NonNull HttpServletResponse response, 
+                                    @NonNull FilterChain filterChain) throws IOException, ServletException {
+          
         String jwt = getJwtFromRequest(request);
 
-        if (jwt != null && tokenProvider.validateToken(jwt)) {
-            
+        if(jwt != null && tokenProvider.validateToken(jwt))
+        {
             String username = tokenProvider.getUsernameFromJWT(jwt);
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(userDetails,
+                                                        null,
+                                                        userDetails.getAuthorities());
+            token.setDetails(new WebAuthenticationDetailsSource()
+                                .buildDetails(request));
 
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(token);
         }
 
         filterChain.doFilter(request, response);
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
-<<<<<<< HEAD
+
+
+        String bearerToken = null;
+        Cookie[] cookies = request.getCookies();
+
+        if(cookies != null)
+        {
+            for(Cookie cookie : cookies)
+            {
+                if(cookie.getName().equals("jwt"))
+                {
+                    bearerToken = cookie.getValue();
+                    break;
+                }
+            }
+
+
             
         String bearerToken = null;
         Cookie[] cookies = request.getCookies();
@@ -67,12 +91,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             
         if (bearerToken != null) {
             return bearerToken;
-=======
-            String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
->>>>>>> f3c5889 (Eliminar clases CustomAuthEntryPoint y CustomAuthenticationProvider, y ajustar configuración de seguridad en SecurityConf y JwtAuthenticationFilter)
+
         }
-        return null;
+
+        return bearerToken;
     }
 }

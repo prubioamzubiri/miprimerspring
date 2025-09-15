@@ -16,16 +16,18 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.zubiri.miprimerspring.security.jwt.JwtAuthenticationResponse;
 import com.zubiri.miprimerspring.security.jwt.JwtTokenProvider;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+import org.springframework.http.HttpHeaders;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -70,6 +72,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto, HttpServletResponse response) {
         try {
+
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword())
             );
@@ -78,15 +81,23 @@ public class UserController {
 
             String jwt = tokenProvider.generateToken(authentication);
 
-            Cookie cookie = new Cookie("jwt", jwt);
-            cookie.setPath("/");
 
-            response.addCookie(cookie);
+            ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
+                                                  .path("/")
+                                                  .httpOnly(true)
+                                                  .sameSite("None")
+                                                  .build();
             
-            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+
+
+            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+            return ResponseEntity.ok("Logged in");
+            
 
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                 .body("Invalid username/password supplied");
         }
     }
 
@@ -106,6 +117,14 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     GetUserDto getUserDto(@AuthenticationPrincipal Usuario user){
         return userConverter.fromUser(user);
+    }
+
+    @GetMapping("/meTodo")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Usuario getTodo(@AuthenticationPrincipal Usuario user){
+
+        System.out.println(user);
+        return user;
     }
     
     

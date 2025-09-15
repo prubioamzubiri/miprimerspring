@@ -33,10 +33,16 @@ public class SecurityConf {
 
     @Bean
     public AuthenticationManager authenticationManagerBean(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authManagerBuilder.userDetailsService(customUserDetailsService)
-                          .passwordEncoder(passwordEncoder);
-        return authManagerBuilder.build();
+
+        AuthenticationManagerBuilder authenticationManagerBuilder = 
+                    http.getSharedObject(AuthenticationManagerBuilder.class);
+
+        authenticationManagerBuilder
+                .userDetailsService(customUserDetailsService)
+                .passwordEncoder(passwordEncoder);
+                
+        return authenticationManagerBuilder.build();
+
     }
 
     @Bean
@@ -44,15 +50,14 @@ public class SecurityConf {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/user/login", "/user/register", "/user/create", "/swagger-ui/**").permitAll()
+                .requestMatchers("/user/*", "/user/register", "/user/create", "/swagger-ui/**").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            );
-
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+            )
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
